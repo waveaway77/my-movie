@@ -5,10 +5,10 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>고양이 가라사대</title>
+  <title>movie world</title>
 </head>
 <style>
-  body {
+  /* body {
     text-align: center;
   }
 
@@ -24,10 +24,7 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 15px;
-  }
-
-  width: 150px;
-  }
+  } */
 
   */
 </style>
@@ -46,6 +43,7 @@
         return JSON.parse(localStorage.getItem(key));
       },
     };
+
     function CatItem(props) {
       return (
         <li>
@@ -78,45 +76,6 @@
       )
     }
 
-    const Form = ({ updateMainCat }) => {
-      const includesHangul = (text) => /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/i.test(text);
-      const [value, setValue] = React.useState('');
-      const [errorMessage, setErrorMessage] = React.useState((''))
-
-      function handleInputChange(e) {
-        const userValue = e.target.value
-        console.log(includesHangul(userValue))
-        setErrorMessage("")
-        if (includesHangul(userValue)) {
-          setErrorMessage("한글은 입력할 수 없습니다")
-        }
-        setValue(e.target.value.toUpperCase())
-      }
-
-      function handleFormSubmit(e) {
-        e.preventDefault()
-        setErrorMessage("")
-        if (value == '') {
-          setErrorMessage("빈 값으로 만들 수 없습니다")
-          return
-        }
-        updateMainCat()
-      }
-      return ( // 리스닝
-        <form onSubmit={handleFormSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="영어 대사를 입력해주세요"
-            onChange={handleInputChange}
-            value={value}
-          />
-          <button type="submit">생성</button>
-          <p style={{ color: 'red' }}>{errorMessage}</p>
-        </form>
-      )
-    }
-
     const App = () => {
       const CAT1 = "https://cataas.com/cat/HSENVDU4ZMqy7KQ0/says/react";
       const CAT2 = "https://cataas.com/cat/BxqL2EjFmtxDkAm2/says/inflearn";
@@ -143,8 +102,8 @@
 
       return (
         <div>
-          <Title>{counter}번째 고양이 가라사대</Title>
-          <Form updateMainCat={updateMainCat} />
+          <Title>Movie World</Title>
+          <p>Find your Centuries</p>
           <MainCard img={mainCat} onHeartClick={handleHeartClick} />
           <Favorites favorites={favorites} />
         </div>
