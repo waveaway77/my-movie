@@ -42,11 +42,6 @@
         return JSON.parse(localStorage.getItem(key));
       },
     };
-
-    function handleMenuOver() {
-      return true
-    }
-
     const MainCard = ({ img }) => {
       return (
         <div className="main-card">
@@ -65,15 +60,17 @@
 
       const centuries = ['18C', '19C', '20C', '21C'];
       const [hoveredIndex, setHoveredIndex] = React.useState(null);
+      const [clickedIndex, setClickedIndex] = React.useState(null);
 
       return (
         <ul className="centuries">
           {centuries.map((centrury, index) => (
             <p
-              key={index} // 0 1 2 3
+              key={index}
               onMouseOver={() => setHoveredIndex(index)}
               onMouseOut={() => setHoveredIndex(null)}
-              style={{ fontWeight: hoveredIndex === index ? 'bold' : 'normal' }}
+              onClick={() => setClickedIndex(index)}
+              style={{ fontWeight: ((hoveredIndex === index) || (clickedIndex === index)) ? 'bold' : 'normal' }}
             >
               {centrury}
             </p>
@@ -102,8 +99,7 @@
         <div>
           <Title>Movie World</Title>
           <p>Find your Centuries</p>
-          <CenturyMenu
-            onMenuOver={handleMenuOver} />
+          <CenturyMenu />
           <MainCard img={mainMap} />
         </div>
       )
