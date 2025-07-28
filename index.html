@@ -8,7 +8,7 @@
   <title>movie world</title>
 </head>
 <style>
-  /* body {
+  body {
     text-align: center;
   }
 
@@ -18,15 +18,14 @@
     bottom: 15px;
   }
 
-  .favorites {
+  .centuries {
     list-style: none;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 15px;
-  } */
-
-  */
+    gap: 40px;
+    padding: 0px;
+  }
 </style>
 
 <body>
@@ -44,28 +43,14 @@
       },
     };
 
-    function CatItem(props) {
-      return (
-        <li>
-          <img src={props.img} style={{ width: "150px" }} />
-        </li>
-      )
+    function handleMenuOver() {
+      return true
     }
 
-    function Favorites({ favorites }) {
-
-      return (
-        <ul className="favorites">
-          {favorites.map(cat => <CatItem img={cat} key={cat} />)}
-        </ul>
-      )
-    }
-
-    const MainCard = ({ img, onHeartClick }) => {
+    const MainCard = ({ img }) => {
       return (
         <div className="main-card">
-          <img src={img} alt="고양이" width="400" />
-          <button onClick={onHeartClick}>🤍</button>
+          <img src={img} alt="map" width="921" />
         </div>
       )
     }
@@ -76,36 +61,50 @@
       )
     }
 
+    const CenturyMenu = ({ onMenuOver }) => {
+
+      const centuries = ['18C', '19C', '20C', '21C'];
+      const [hoveredIndex, setHoveredIndex] = React.useState(null);
+
+      return (
+        <ul className="centuries">
+          {centuries.map((centrury, index) => (
+            <p
+              key={index} // 0 1 2 3
+              onMouseOver={() => setHoveredIndex(index)}
+              onMouseOut={() => setHoveredIndex(null)}
+              style={{ fontWeight: hoveredIndex === index ? 'bold' : 'normal' }}
+            >
+              {centrury}
+            </p>
+          ))
+          }
+        </ul >
+      )
+    }
+
     const App = () => {
-      const CAT1 = "https://cataas.com/cat/HSENVDU4ZMqy7KQ0/says/react";
+      const MAP = "https://github.com/waveaway77/my-movie/blob/main/resources/map.png?raw=true";
       const CAT2 = "https://cataas.com/cat/BxqL2EjFmtxDkAm2/says/inflearn";
       const CAT3 = "https://cataas.com/cat/18MD6byVC1yKGpXp/says/JavaScript";
 
       const [counter, setCounter] = React.useState(jsonLocalStorage.getItem("counter"))
-      const [mainCat, setMainCat] = React.useState(CAT1)
-      const [favorites, setFavorites] = React.useState(
-        jsonLocalStorage.getItem("favorites") || []
-      )
+      const [mainMap, setMainMap] = React.useState(MAP)
 
       function updateMainCat(event) {
-        setMainCat(CAT2)
+        setMainMap(CAT2)
         const nextCounter = counter + 1
         setCounter(nextCounter)
         jsonLocalStorage.setItem("counter", nextCounter)
-      }
-
-      function handleHeartClick() {
-        const nextFavorites = [...favorites, mainCat]
-        setFavorites(nextFavorites) // CAT1, CAT2, CAT3
-        jsonLocalStorage.setItem('favorites', nextFavorites)
       }
 
       return (
         <div>
           <Title>Movie World</Title>
           <p>Find your Centuries</p>
-          <MainCard img={mainCat} onHeartClick={handleHeartClick} />
-          <Favorites favorites={favorites} />
+          <CenturyMenu
+            onMenuOver={handleMenuOver} />
+          <MainCard img={mainMap} />
         </div>
       )
     }
