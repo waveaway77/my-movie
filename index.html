@@ -6,10 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>movie world</title>
+
 </head>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
   body {
     text-align: center;
+    background-color: #F2F2F2;
   }
 
   .main-card button {
@@ -35,6 +39,28 @@
     gap: 40px;
     padding: 0px;
   }
+
+  .inter-black {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+  }
+
+
+  .inter-regular {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  .inter-light {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+  }
 </style>
 
 <body>
@@ -43,12 +69,6 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   <script type="text/babel">
-    /*
-    기능 정의
-    컴포넌트에 넘겨주기
-    컴포넌트 props로 받아주기
-    */
-
     const jsonLocalStorage = {
       setItem: (key, value) => {
         localStorage.setItem(key, JSON.stringify(value));
@@ -67,7 +87,9 @@
 
     const Title = (props) => {
       return (
-        <h1>{props.children}</h1>
+        <div style={{ paddingTop: 300 }}>
+          <h1 className="inter-black" style={{ margin: 0, fontSize: 40 }}>{props.children}</h1>
+        </div>
       )
     }
 
@@ -76,19 +98,30 @@
       const [hoveredIndex, setHoveredIndex] = React.useState(null);
       const [clickedIndex, setClickedIndex] = React.useState(null);
 
+
       return (
-        <ul className="durations">
-          {durations.map((duration, index) => (
-            <p
-              key={index}
-              onMouseOver={() => setHoveredIndex(index)}
-              onMouseOut={() => setHoveredIndex(null)}
-              onClick={() => setClickedIndex(index)}
-              style={{ fontWeight: ((hoveredIndex === index) || (clickedIndex === index)) ? 'bold' : 'normal' }}
-            >
-              {duration}
-            </p>
-          ))}
+        <ul className="durations"
+        >
+          {durations.map((duration, index) => {
+            const isHovered = hoveredIndex === index;
+            const isClicked = clickedIndex === index;
+
+            return (
+              <p
+                inter-regula="inter-regula"
+                key={index}
+                onMouseOver={() => setHoveredIndex(index)}
+                onMouseOut={() => setHoveredIndex(null)}
+                onClick={() => setClickedIndex(index)}
+                style={{
+                  fontWeight: isClicked ? 'bold' : 'normal',
+                  color: isHovered || isClicked ? 'black' : '#999999'
+                }}
+              >
+                {duration}
+              </p>
+            )
+          })}
         </ul>
       )
     }
@@ -98,19 +131,31 @@
       const [hoveredIndex, setHoveredIndex] = React.useState(null);
       const [clickedIndex, setClickedIndex] = React.useState(null);
 
+
       return (
-        <ul className="centuries">
-          {centuries.map((centrury, index) => (
-            <p
-              key={index}
-              onMouseOver={() => setHoveredIndex(index)}
-              onMouseOut={() => setHoveredIndex(null)}
-              onClick={() => (setClickedIndex(index), showDurationMenu(true))}
-              style={{ fontWeight: ((hoveredIndex === index) || (clickedIndex === index)) ? 'bold' : 'normal' }}
-            >
-              {centrury}
-            </p>
-          ))
+        <ul className="centuries"
+          style={{ margin: '100px 0 10px 0' }}
+        >
+          {centuries.map((centrury, index) => {
+            const isHovered = hoveredIndex === index;
+            const isClicked = clickedIndex === index;
+
+            return (
+              <p
+                inter-regula="inter-regula"
+                key={index}
+                onMouseOver={() => setHoveredIndex(index)}
+                onMouseOut={() => setHoveredIndex(null)}
+                onClick={() => (setClickedIndex(index), showDurationMenu(true))}
+                style={{
+                  fontWeight: isClicked ? 'bold' : 'normal',
+                  color: isHovered || isClicked ? 'black' : '#999999'
+                }}
+              >
+                {centrury}
+              </p>
+            )
+          })
           }
         </ul >
       )
@@ -150,7 +195,7 @@
       return (
         <div>
           <Title>Movie World</Title>
-          <p>Find your Centuries</p>
+          <p className="inter-light" style={{ color: "#999999", margin: -10, fontSize: 40 }}>Find your Centuries</p>
           <Menu />
           <MainCard img={mainMap} />
         </div>
