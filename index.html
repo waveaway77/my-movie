@@ -96,14 +96,24 @@
     const DurationMenu = ({ }) => {
       const durations = ['초', '중', '후']
       const [hoveredIndex, setHoveredIndex] = React.useState(null);
-      const [clickedIndex, setClickedIndex] = React.useState(null);
+      // const [clickedIndex, setClickedIndex] = React.useState(null);
+      const [clickedIndices, setClickedIndices] = React.useState([])
+
+      const toggleClick = (index) => { // 사용자가 누른 항목의 index를 매개변수로 받는다.
+        setClickedIndices((prev) => // prev는 기존에 선택된 index 목록
+          prev.includes(index) // 현재 누른 index가 prev 배열에 이미 있는지 확인한다
+            ? prev.filter((i) => i !== index) // 이미 선택된 상태일 경우 → index를 제외한 새 배열을 만든다
+            : [...prev, index] // 아직 선택되지 않은 상태일 경우 → 기존 배열에 새로 추가
+        )
+      }
 
       return (
         <ul className="durations"
         >
           {durations.map((duration, index) => {
             const isHovered = hoveredIndex === index;
-            const isClicked = clickedIndex === index;
+            // const isClicked = clickedIndex === index;
+            const isClicked = clickedIndices.includes(index)
 
             return (
               <p
@@ -111,7 +121,8 @@
                 key={index}
                 onMouseOver={() => setHoveredIndex(index)}
                 onMouseOut={() => setHoveredIndex(null)}
-                onClick={() => setClickedIndex(index)}
+                // onClick={() => setClickedIndex(index)}
+                onClick={() => toggleClick(index)}
                 style={{
                   fontWeight: isClicked ? 'bold' : 'normal',
                   color: isHovered || isClicked ? 'black' : '#999999'
