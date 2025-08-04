@@ -98,7 +98,6 @@
       const [hoveredIndex, setHoveredIndex] = React.useState(null);
       const [clickedIndex, setClickedIndex] = React.useState(null);
 
-
       return (
         <ul className="durations"
         >
@@ -126,7 +125,7 @@
       )
     }
 
-    const CenturyMenu = ({ showDurationMenu }) => {
+    const CenturyMenu = ({ callDurationMenu }) => {
       const centuries = ['18C', '19C', '20C', '21C'];
       const [hoveredIndex, setHoveredIndex] = React.useState(null);
       const [clickedIndex, setClickedIndex] = React.useState(null);
@@ -146,7 +145,7 @@
                 key={index}
                 onMouseOver={() => setHoveredIndex(index)}
                 onMouseOut={() => setHoveredIndex(null)}
-                onClick={() => (setClickedIndex(index), showDurationMenu(true))}
+                onClick={() => (setClickedIndex(index), callDurationMenu())}
                 style={{
                   fontWeight: isClicked ? 'bold' : 'normal',
                   color: isHovered || isClicked ? 'black' : '#999999'
@@ -162,16 +161,18 @@
     }
 
     const Menu = ({ }) => {
-      const [isVisible, setIsVisible] = React.useState(false)
+      const [isCalled, setIsCalled] = React.useState(false)
+      const [menuKey, setMenuKey] = React.useState(0)
 
-      function showDurationMenu(value) {
-        setIsVisible(value)
+      function callDurationMenu() {
+        setIsCalled(true)
+        setMenuKey(prev => prev + 1)
       }
 
       return (
         <div>
-          <CenturyMenu showDurationMenu={showDurationMenu} />
-          {isVisible && (<DurationMenu />)}
+          <CenturyMenu callDurationMenu={callDurationMenu} />
+          {isCalled && (<DurationMenu key={menuKey} />)}
         </div>
       )
     }
