@@ -18,6 +18,15 @@
     bottom: 15px;
   }
 
+  .durations {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 0px;
+  }
+
   .centuries {
     list-style: none;
     display: flex;
@@ -34,6 +43,12 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   <script type="text/babel">
+    /*
+    기능 정의
+    컴포넌트에 넘겨주기
+    컴포넌트 props로 받아주기
+    */
+
     const jsonLocalStorage = {
       setItem: (key, value) => {
         localStorage.setItem(key, JSON.stringify(value));
@@ -56,8 +71,29 @@
       )
     }
 
-    const CenturyMenu = ({ onMenuOver }) => {
+    const DurationMenu = ({ }) => {
+      const durations = ['초', '중', '후']
+      const [hoveredIndex, setHoveredIndex] = React.useState(null);
+      const [clickedIndex, setClickedIndex] = React.useState(null);
 
+      return (
+        <ul className="durations">
+          {durations.map((duration, index) => (
+            <p
+              key={index}
+              onMouseOver={() => setHoveredIndex(index)}
+              onMouseOut={() => setHoveredIndex(null)}
+              onClick={() => setClickedIndex(index)}
+              style={{ fontWeight: ((hoveredIndex === index) || (clickedIndex === index)) ? 'bold' : 'normal' }}
+            >
+              {duration}
+            </p>
+          ))}
+        </ul>
+      )
+    }
+
+    const CenturyMenu = ({ showDurationMenu }) => {
       const centuries = ['18C', '19C', '20C', '21C'];
       const [hoveredIndex, setHoveredIndex] = React.useState(null);
       const [clickedIndex, setClickedIndex] = React.useState(null);
@@ -69,7 +105,7 @@
               key={index}
               onMouseOver={() => setHoveredIndex(index)}
               onMouseOut={() => setHoveredIndex(null)}
-              onClick={() => setClickedIndex(index)}
+              onClick={() => (setClickedIndex(index), showDurationMenu(true))}
               style={{ fontWeight: ((hoveredIndex === index) || (clickedIndex === index)) ? 'bold' : 'normal' }}
             >
               {centrury}
@@ -79,6 +115,22 @@
         </ul >
       )
     }
+
+    const Menu = ({ }) => {
+      const [isVisible, setIsVisible] = React.useState(false)
+
+      function showDurationMenu(value) {
+        setIsVisible(value)
+      }
+
+      return (
+        <div>
+          <CenturyMenu showDurationMenu={showDurationMenu} />
+          {isVisible && (<DurationMenu />)}
+        </div>
+      )
+    }
+
 
     const App = () => {
       const MAP = "https://github.com/waveaway77/my-movie/blob/main/resources/map.png?raw=true";
@@ -99,7 +151,7 @@
         <div>
           <Title>Movie World</Title>
           <p>Find your Centuries</p>
-          <CenturyMenu />
+          <Menu />
           <MainCard img={mainMap} />
         </div>
       )
